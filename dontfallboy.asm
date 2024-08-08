@@ -1,4 +1,4 @@
-;落ちない君
+;落ちない君 r01
 ;MPASMかpic-asあたりで書いてる気がする。NASMが良かった。
 ;アドレスやバイトオーダーはきっとおそらく多分もしかしたらmaybeリトルエンディアンかもしれない可能性が無きにしも非ず
 	LIST		P=PIC16F1827								;使用するPICを指定
@@ -32,14 +32,17 @@
 	MOVLW	B'00000101'										;モーターの出力信号0101(00000101B)をWレジスタに格納
 	MOVWF	PATTERNA										;WレジスタのデータをPATTERNAへ格納
 ;
-	MOVLW	B'00000001'										;モーターの出力信号0101(00000101B)をWレジスタに格納
+	MOVLW	B'00000110'										;モーターの出力信号0101(00000101B)をWレジスタに格納
 	MOVWF	PATTERNB										;WレジスタのデータをPATTERNBへ格納
 ;
-	MOVLW	B'00001001'										;モーターの出力信号0101(00000101B)をWレジスタに格納
+	MOVLW	B'00000010'										;モーターの出力信号0101(00000101B)をWレジスタに格納
 	MOVWF	PATTERNC										;WレジスタのデータをPATTERNCへ格納
 ;
-	MOVLW	B'00000100'										;モーターの出力信号0101(00000101B)をWレジスタに格納
+	MOVLW	B'00001001'										;モーターの出力信号0101(00000101B)をWレジスタに格納
 	MOVWF	PATTERND										;WレジスタのデータをPATTERNDへ格納
+;
+	MOVLW	B'00001000'										;モーターの出力信号0101(00000101B)をWレジスタに格納
+	MOVWF	PATTERNE										;WレジスタのデータをPATTERNDへ格納
 ;
 ;スタートスイッチの確認
 START_SW
@@ -52,7 +55,7 @@ COLOR_SENSOR
 	GOTO	S000											;S000へ
 	CLRF	PORTA											;ポートAをクリア(モーター停止)
 ;
-;センサー入力(左,中央,右)
+;S(左,中,右)
 S000
 	CLRW													;Wレジスタをクリア
 	BCF		STATUS,Z										;ゼロフラグをクリア
@@ -73,7 +76,7 @@ S001
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00000100'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
@@ -87,7 +90,7 @@ S010
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00001000'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
@@ -101,7 +104,7 @@ S011
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00001100'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
@@ -115,7 +118,7 @@ S100
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00010000'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
@@ -129,7 +132,7 @@ S101
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00010100'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
@@ -143,7 +146,7 @@ S110
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00011000'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
@@ -157,7 +160,7 @@ S111
 	CLRF	DATA1											;DATA1をクリア
 	MOVF	PORTB,W											;PORTBをWレジスタへ格納
 	MOVWF	DATA1											;WレジスタのデータをDATA1へ格納
-	MOVLW	B'00000000'										;00000000BをWレジスタへ格納
+	MOVLW	B'00011100'										;00000000BをWレジスタへ格納
 	SUBWF	DATA1,W											;(DATA1 - W)の値をWレジスタへ格納(演算結果が0ならZ=0)
 	BTFSS	STATUS,Z										;STATUSのゼロフラグが1なら次をスキップ
 	GOTO	S001											;S001へ行く
